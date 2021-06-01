@@ -1,4 +1,4 @@
-import 'package:first_form/text_form_widget.dart';
+import 'package:first_form/form_controller.dart';
 import 'package:flutter/material.dart';
 
 class FormView extends StatefulWidget {
@@ -10,6 +10,7 @@ class FormView extends StatefulWidget {
 
 class _FormViewState extends State<FormView> {
   final _formKey = GlobalKey<FormState>();
+  final controller = FormController();
   String actualName;
   String actualLastName;
 
@@ -72,27 +73,41 @@ class _FormViewState extends State<FormView> {
                     child: Text('Validar'),
                     onPressed: () {
                       final _isValid = _formKey.currentState.validate();
-                      _formKey.currentState.save();
                       if (_isValid) {
+                        controller.updateName(actualName);
+                        controller.updateSurname(actualLastName);
                         showDialog(
                           context: context,
                           builder: (_) {
                             return AlertDialog(
                               title: Text('Validação'),
                               content: Text(
-                                  'Muito bem, $actualName $actualLastName.'),
+                                  'Deseja salvar \{$actualName $actualLastName\} como usuário ?'),
                               actions: [
                                 TextButton(
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },
-                                  child: Text('OK'),
+                                  child: Text('Cancelar'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    controller.saveUser();
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('Sim'),
                                 ),
                               ],
                             );
                           },
                         );
                       }
+                    },
+                  ),
+                  FutureBuilder<String>(
+                    future: controller.fullName,
+                    builder: (context, snapshot) {
+                      return Text(snapshot.data);
                     },
                   ),
                 ],
