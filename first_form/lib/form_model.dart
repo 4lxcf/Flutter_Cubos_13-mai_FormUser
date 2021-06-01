@@ -5,10 +5,10 @@ import 'package:first_form/shared_preferences_adapter.dart';
 class FormModel {
   String name;
   String surname;
-  final InternalStorageAdapter internalStorage =
-      InternalStorageAdapter ?? SharedPreferencesAdapter();
+  final InternalStorageAdapter internalStorage;
 
-  FormModel({InternalStorageAdapter internalStorageAdapter});
+  FormModel({InternalStorageAdapter internalStorageAdapter})
+      : internalStorage = internalStorageAdapter ?? SharedPreferencesAdapter();
 
   void saveUser() {
     if (name == null) return;

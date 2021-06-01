@@ -8,7 +8,6 @@
 import 'package:first_form/form_model.dart';
 import 'package:first_form/internal_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   group('InternalStorage', () {
@@ -16,23 +15,38 @@ void main() {
       //PREP
       final model =
           FormModel(internalStorageAdapter: MockInternalStorageAdapter());
+      model.name = 'Nome';
+      model.surname = 'Sobrenome';
       //METHOD
       model.saveUser();
+      model.getFullName();
       //EXPECT
       expect(
-        model.getFullName(),
-        completion(isNotNull),
+        model.name,
+        isNotEmpty,
+      );
+      expect(
+        model.surname,
+        isNotEmpty,
       );
     });
   });
 }
 
 class MockInternalStorageAdapter extends InternalStorageAdapter {
-  void saveUser(String name, String surname) {}
+  String userName;
+  String userSurname;
+
+  void saveUser(String name, String surname) {
+    userName = name;
+    userSurname = surname;
+  }
 
   Future<String> getFullName() {
-    final name = 'Alexandre';
-    final surname = 'Ferreira';
-    return Future.value(name + ' ' + surname);
+    if ((userName != null) && (userSurname != null)) {
+      return Future.value(userName + ' ' + userSurname);
+    } else {
+      return Future.value('Sem Usuario.');
+    }
   }
 }
