@@ -42,6 +42,7 @@ class _FormViewState extends State<FormView> {
                     ),
                     onChanged: (input) {
                       actualName = input;
+                      print(actualName);
                     },
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -107,7 +108,11 @@ class _FormViewState extends State<FormView> {
                   FutureBuilder<String>(
                     future: controller.fullName,
                     builder: (context, snapshot) {
-                      return Text(snapshot.data);
+                      if (snapshot.hasData) {
+                        return Text(snapshot.data);
+                      } else {
+                        return Text('');
+                      }
                     },
                   ),
                 ],
