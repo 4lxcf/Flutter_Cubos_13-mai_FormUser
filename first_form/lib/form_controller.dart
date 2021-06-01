@@ -9,13 +9,15 @@ class FormController {
 
   void updateName(String name) {
     model.name = name;
+    model.saveUser();
   }
 
   void updateSurname(String surname) {
     model.surname = surname;
-  }
-
-  void saveUser() {
     model.saveUser();
   }
+
+  // void saveUser() {
+  //   model.saveUser();
+  // }
 }

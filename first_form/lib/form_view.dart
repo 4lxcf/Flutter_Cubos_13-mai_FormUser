@@ -42,8 +42,9 @@ class _FormViewState extends State<FormView> {
                     ),
                     onChanged: (input) {
                       actualName = input;
-                      print(actualName);
+                      controller.updateName(actualName);
                     },
+                    initialValue: controller.name,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Este campo é obrigatório!';
@@ -61,7 +62,9 @@ class _FormViewState extends State<FormView> {
                     ),
                     onChanged: (input) {
                       actualLastName = input;
+                      controller.updateSurname(actualLastName);
                     },
+                    initialValue: controller.surname,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Este campo é obrigatório!';
@@ -93,7 +96,7 @@ class _FormViewState extends State<FormView> {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    controller.saveUser();
+                                    //controller.saveUser();
                                     Navigator.pop(context);
                                   },
                                   child: Text('Sim'),
